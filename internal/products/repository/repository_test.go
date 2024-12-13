@@ -38,7 +38,7 @@ func init() {
 		panic(errors.Wrap(err, "config.LoadConfigPath"))
 	}
 
-	db, err = databases.NewDB(context.Background(), cfg.Database)
+	db, err = databases.NewDB(cfg.Database)
 	if err != nil {
 		panic(errors.Wrap(err, cfg.Database.DBName))
 	}

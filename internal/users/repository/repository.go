@@ -2,11 +2,12 @@ package repository
 
 import (
 	"context"
+	"github.com/jmoiron/sqlx"
 
 	"github.com/DoWithLogic/coffee-service/internal/users"
 	"github.com/DoWithLogic/coffee-service/internal/users/entities"
 	"github.com/DoWithLogic/coffee-service/pkg/observability"
-	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 )
 

@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 	"database/sql"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 
-	"github.com/DoWithLogic/coffee-service/config"
 	"github.com/DoWithLogic/coffee-service/internal/users"
 	"github.com/DoWithLogic/coffee-service/internal/users/dtos"
 	"github.com/DoWithLogic/coffee-service/internal/users/entities"

@@ -1,22 +1,31 @@
-version: "3.9"
+version: '3.8'
+
 services:
-  mysql-db:
-    image: mysql:latest
-    container_name: mysql-db
+  postgres:
+    image: postgres:17
+    container_name: postgres
     environment:
-      TZ: Asia/Jakarta
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-pwd}
-      MYSQL_USER: ${MYSQL_USER:-admin}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-pwd}
-    restart: unless-stopped
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: coffee_service
     ports:
-      - 3306:3306
+      - "5433:5432"
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root --password=${MYSQL_ROOT_PASSWORD:-pwd}"]
-      interval: 0.5s
-      timeout: 10s
-      retries: 10
-    entrypoint: 
-      sh -c "
-        echo 'CREATE DATABASE IF NOT EXISTS coffee_service;' > /docker-entrypoint-initdb.d/init.sql;
-        /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+      test: ["CMD-SHELL", "pg_isready -U root -d coffee_service"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+      timeout: 2s
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ../database/migrations:/migrations
+    entrypoint: [ "sh", "-c", "sleep 5 && migrate -path=/migrations -database postgres://root:pwd@postgres:5432/coffee_service?sslmode=disable up" ]
+    depends_on:
+      - postgres
+
+volumes:
+  db-data:

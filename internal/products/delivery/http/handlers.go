@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/DoWithLogic/coffee-service/config"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 	"github.com/DoWithLogic/coffee-service/internal/products"
 	"github.com/DoWithLogic/coffee-service/internal/products/dtos"
 	"github.com/DoWithLogic/coffee-service/pkg/apperrors"

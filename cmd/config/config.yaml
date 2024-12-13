@@ -4,11 +4,11 @@ Server:
   TimeZone: "Asia/Jakarta"
 
 Database:
-  Host: "127.0.0.1"
-  Port: "3306"
+  Port: "5433"
   DBName: "coffee_service"
   UserName: "root"
   Password: "pwd"
+
 
 Authorization:
   SecretKey: "my-secret-key"

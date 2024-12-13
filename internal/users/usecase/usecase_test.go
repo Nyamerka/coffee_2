@@ -4,10 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 	"testing"
 	"time"
 
-	"github.com/DoWithLogic/coffee-service/config"
 	"github.com/DoWithLogic/coffee-service/internal/users/dtos"
 	"github.com/DoWithLogic/coffee-service/internal/users/entities"
 	"github.com/DoWithLogic/coffee-service/internal/users/mocks"

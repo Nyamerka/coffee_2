@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"github.com/DoWithLogic/coffee-service/config"
 	"github.com/DoWithLogic/coffee-service/pkg/databases"
 	"github.com/DoWithLogic/coffee-service/pkg/observability"
 	"github.com/labstack/echo/v4"
@@ -30,7 +30,6 @@ func main() {
 		panic(err)
 	}
 
-	// Set the time zone to Asia/Jakarta
 	_, err = time.LoadLocation(cfg.Server.TimeZone)
 	if err != nil {
 		log.Error("Error on Set the time zone to Asia/Jakarta: ", err)
@@ -38,7 +37,7 @@ func main() {
 		return
 	}
 
-	db, err := databases.NewMySQLDB(context.Background(), cfg.Database)
+	db, err := databases.NewDB(cfg.Database)
 	if err != nil {
 		panic(err)
 	}
@@ -47,6 +46,7 @@ func main() {
 		server  = echo.New()
 		version = server.Group("/v1/coffee")
 	)
+
 	server.Use(middleware.CORS())
 
 	version.GET("/ping", func(c echo.Context) error {
@@ -66,8 +66,6 @@ func main() {
 	usersHandlers.MapRoutes(version)
 	productsHandlers.MapRoutes(version)
 
-	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 10 seconds.
-	// Use a buffered channel to avoid missing signals as recommended for signal.Notify
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM)
 	signal.Notify(quit, syscall.SIGINT)

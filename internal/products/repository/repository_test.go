@@ -3,10 +3,10 @@ package repository_test
 import (
 	"context"
 	"database/sql"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 	"testing"
 	"time"
 
-	"github.com/DoWithLogic/coffee-service/config"
 	"github.com/DoWithLogic/coffee-service/internal/products"
 	"github.com/DoWithLogic/coffee-service/internal/products/entities"
 	"github.com/DoWithLogic/coffee-service/internal/products/repository"
@@ -38,7 +38,7 @@ func init() {
 		panic(errors.Wrap(err, "config.LoadConfigPath"))
 	}
 
-	db, err = databases.NewMySQLDB(context.Background(), cfg.Database)
+	db, err = databases.NewDB(context.Background(), cfg.Database)
 	if err != nil {
 		panic(errors.Wrap(err, cfg.Database.DBName))
 	}

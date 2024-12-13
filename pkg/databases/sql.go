@@ -1,18 +1,18 @@
 package databases
 
 import (
-	"context"
 	"fmt"
-
-	"github.com/DoWithLogic/coffee-service/config"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/DoWithLogic/coffee-service/cmd/config"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq" // Импортируем драйвер PostgreSQL
 )
 
-func NewMySQLDB(ctx context.Context, cfg config.DatabaseConfig) (*sqlx.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true&loc=Asia%%2FJakarta", cfg.UserName, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
+func NewDB(cfg config.DatabaseConfig) (*sqlx.DB, error) {
+	// Строка подключения для PostgreSQL
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", cfg.UserName, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
 
-	db, err := sqlx.Open("mysql", dsn)
+	// Открываем подключение с использованием драйвера "pq"
+	db, err := sqlx.Open("postgres", dsn) // Используем "postgres", а не "pq"
 	if err != nil {
 		panic(err)
 	}

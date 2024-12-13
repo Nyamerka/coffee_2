@@ -1,6 +1,6 @@
-CREATE TABLE `menu_categories` (
-  `id` integer AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp DEFAULT NULL
+CREATE TABLE menu_categories (
+                                 id SERIAL PRIMARY KEY,
+                                 name VARCHAR(255) NOT NULL,
+                                 created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+                                 updated_at TIMESTAMP DEFAULT NULL
 );
